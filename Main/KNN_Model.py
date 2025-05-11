@@ -35,8 +35,12 @@ y = np.array(y)
 knn = KNeighborsClassifier(n_neighbors=3)
 knn.fit(x, y)
 
+maker_dir = "Model"
+if not os.path.exists(maker_dir):
+    os.makedirs(maker_dir)
+
 #luu model
-with open('Model/face_reconition_model.pkl', 'wb') as f:
+with open(os.path.join(maker_dir, "face_reconition_model.pkl"), 'wb') as f:
     pickle.dump(knn, f)
 
 print("Đã huấn luyện và lưu model nhận diện khuôn mặt (KNN)")
