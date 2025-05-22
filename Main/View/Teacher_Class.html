@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="Teacher_Class.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-section">
+        <div class="tabs-container">
+          <div class="logo-and-tabs">
+            <div class="logo-column">
+              <img src="../images/icon_black.png" class="logo" alt="Logo" />
+            </div>
+            <div class="tab-column">
+              <button class="tab-button active" id="class-tab">Lớp</button>
+            </div>
+            <div class="tab-column">
+              <button class="tab-button" id="student-tab">QLSV</button>
+            </div>
+          </div>
+        </div>
+        <div class="profile-container">
+          <div class="profile-content">
+            <img src="../images/profile.png" onclick="toggleMenu()" />
+          </div>
+        </div>
+        <div class="sub-menu-wrap" id="subMenu">
+          <div class="sub-menu">
+            <a href="#" class="sub-menu-link">
+              <img src="../images/setting.png" />
+              <p>Settings & Privacy</p>
+              <span>></span>
+            </a>
+            <a href="#" class="sub-menu-link">
+              <img src="../images/logout.png" />
+              <p>Logout</p>
+              <span>></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="content-columns">
+          <div class="class-list-column">
+            <div class="class-list-container">
+              <div class="class-header">
+                <div class="class-title">Danh Sách Lớp</div>
+                <button class="add-class-button">Thêm Lớp</button>
+              </div>
+              <div class="class-items">
+                <!-- Class items would be dynamically added here -->
+              </div>
+              <div class="class-actions">
+                <ul class="action-buttons">
+                  <li><button class="action-button">Xem</button></li>
+                  <li><button class="action-button">Sửa</button></li>
+                  <li><button class="action-button">Xóa</button></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="student-list-column">
+            <div class="student-list-container">
+              Chọn một lớp để xem danh sách học sinh
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("class-tab")
+        .addEventListener("click", function () {
+          this.classList.add("active");
+          document.getElementById("student-tab").classList.remove("active");
+        });
+
+      document
+        .getElementById("student-tab")
+        .addEventListener("click", function () {
+          this.classList.add("active");
+          document.getElementById("class-tab").classList.remove("active");
+        });
+      let subMenu = document.getElementById("subMenu");
+      function toggleMenu() {
+        subMenu.classList.toggle("open-menu");
+      }
+    </script>
+  </body>
+</html>

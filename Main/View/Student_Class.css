@@ -1,0 +1,287 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Noto Sans;
+}
+
+
+/* this is for centering navbar */
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background image */
+.container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/gradient.png');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+
+/* Header section */
+.header-section {
+    display: flex;
+    gap: 20px;
+    position: relative;
+    max-width: 1193px;
+    width: 100%;
+    align-self: flex-end;
+}
+
+.tabs-container {
+    width: 76%;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 16px 80px 4px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.logo-and-tabs {
+    display: flex;
+    gap: 20px;
+}
+
+.logo-column {
+    width: 21%;
+}
+
+.logo {
+    width: 60px;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+}
+
+.tab-column {
+    width: 39%;
+    margin-left: 20px;
+}
+
+.tab-button {
+    width: 100%;
+    padding: 10px 56px;
+    border-radius: 33px;
+    font-size: 24px;
+    font-weight: 800;
+    color: #1c1917;
+    background-color: #d4d4d8;
+    border: 1px solid;
+    cursor: pointer;
+    min-height: 53px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+}
+
+.tab-button.active:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.profile-container {
+    width: 10%;
+    margin-left: 60px;
+
+}
+
+.profile-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 10px 48px;
+    width: 100%;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.profile-content:hover {
+    background-color: white;
+}
+
+.sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    right: 10%;
+    width: 320px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+    z-index:2;
+}
+
+.sub-menu-wrap.open-menu{
+    max-height: 400px
+}
+
+.sub-menu{
+    background: #fff;
+    padding:5px;
+    margin: 10px;
+    border-radius: 16px;
+}
+
+.sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #525252;
+    margin: 12px 0;
+}
+ 
+.sub-menu-link p{
+    width: 200px
+}
+
+.sub-menu-link img{
+    width:40px;
+    background: #e5e5e5;
+    border-radius: 50%;
+    padding: 8px;
+    margin-right:15px
+}
+
+.sub-menu-link span{
+    font-size: 22px;
+    transition: transform 0.5s;
+}
+
+.sub-menu-link:hover span{
+    transform: translateX(10px);
+}
+
+.sub-menu-link:hover p{
+    font-weight:600;
+}
+
+/* Main content */
+.main-content {
+    position: relative;
+    padding: 40px 20px;
+    margin-top: 56px;
+    width: 100%;
+    max-width: 1378px;
+    border-radius: 24px;
+    backdrop-filter: blur(15px);
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+
+.class-list-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 28px;
+    padding-bottom: 112px;
+    border-radius: 24px;
+    border: 1px solid #d4d4d8;
+    background-color: rgba(28, 25, 23, 0.8);
+    position: relative;
+}
+
+.class-header {
+    display: flex;
+    flex-direction: column;
+    padding-right: 64px;
+    padding-left: 32px;
+}
+
+.class-title {
+    align-self: flex-start;
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 2.4px;
+}
+
+.add-class-button {
+    align-self: flex-end;
+    padding: 16px 32px;
+    margin-top: 32px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    background-color: #22c55e;
+    border-radius: 12px;
+    border: 1px solid #d4d4d8;
+    color: #1c1917;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-class-button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+.class-items {
+    flex-grow: 1;
+    min-height: 384px; /* Equivalent to mt-96 */
+}
+
+.class-actions {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 512px;
+    width: 100%;
+    list-style: none;
+}
+
+.action-button {
+    padding: 6px 36px 16px;
+    font-size: 20px;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    color: #1c1917;
+    background-color: #d4d4d8;
+    border: 1px solid #d4d4d8;
+    border-radius: 33px;
+    cursor: pointer;
+}
+
+.student-list-container {
+    height: 100%;
+    padding: 28px 32px;
+    padding-bottom: 690px;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    border-radius: 24px;
+    border: 1px solid #d4d4d8;
+    background-color: rgba(28, 25, 23, 0.8);
+    letter-spacing: 2.88px;
+}
