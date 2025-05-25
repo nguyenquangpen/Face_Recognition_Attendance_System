@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="Teacher_Sign_Face.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-section">
+        <div class="tabs-container">
+          <div class="logo-and-tabs">
+            <div class="logo-column">
+              <img src="../images/icon_black.png" class="logo" alt="Logo" />
+            </div>
+            <div class="tab-column">
+              <button class="tab-button active" id="class-tab">Lớp</button>
+            </div>
+            <div class="tab-column">
+              <button class="tab-button" id="student-tab">QLSV</button>
+            </div>
+          </div>
+        </div>
+        <div class="profile-container">
+          <div class="profile-content">
+            <img src="../image/profile.png" onclick="toggleMenu()" />
+          </div>
+        </div>
+        <div class="sub-menu-wrap" id="subMenu">
+          <div class="sub-menu">
+            <a href="#" class="sub-menu-link">
+              <img src="../image/setting.png" />
+              <p>Settings & Privacy</p>
+              <span>></span>
+            </a>
+            <a href="#" class="sub-menu-link">
+              <img src="../image/logout.png" />
+              <p>Logout</p>
+              <span>></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="content-container">
+          <div class="content-header">
+            <div class="header-left">
+              <div class="header-title">Student Information</div>
+              <div class="new-student-button">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/10799d40f51d2bec91f175526833f2328716dda2?placeholderIfAbsent=true&apiKey=34e0264438594db2a19b7519d609f5c8"
+                  alt="Add icon"
+                />
+                <div><a href="#">New Student</a></div>
+              </div>
+            </div>
+            <div class="header-right">Đăng ký khuôn mặt</div>
+          </div>
+
+          <div class="content-body">
+            <div class="form-column">
+              <div class="form-group">
+                <label>Student ID</label>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Nhập MSV"
+                    class="input-field"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Họ tên</label>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Nhập Họ và Tên"
+                    class="input-field"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="image-column">
+              <div class="image-placeholder"></div>
+            </div>
+          </div>
+
+          <div class="save-button">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/2fd92f852b95fe1b0bc61da30c21ae0cc8e69c3b?placeholderIfAbsent=true&apiKey=34e0264438594db2a19b7519d609f5c8"
+              alt="Save icon"
+            />
+            <div>Lưu</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("class-tab")
+        .addEventListener("click", function () {
+          this.classList.add("active");
+          document.getElementById("student-tab").classList.remove("active");
+        });
+
+      document
+        .getElementById("student-tab")
+        .addEventListener("click", function () {
+          this.classList.add("active");
+          document.getElementById("class-tab").classList.remove("active");
+        });
+      let subMenu = document.getElementById("subMenu");
+      function toggleMenu() {
+        subMenu.classList.toggle("open-menu");
+      }
+    </script>
+  </body>
+</html>

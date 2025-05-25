@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="Student_DiemDanh.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-section">
+        <div class="tabs-container">
+          <div class="logo-and-tabs">
+            <div class="logo-column">
+              <img src="../images/icon_black.png" class="logo" alt="Logo" />
+            </div>
+            <div class="tab-column">
+              <button class="tab-button active" id="class-tab">Lớp</button>
+            </div>
+            <div class="tab-column">
+              <button class="tab-button" id="student-tab">QLSV</button>
+            </div>
+          </div>
+        </div>
+        <div class="profile-container">
+          <div class="profile-content">
+            <img src="../images/profile.png" onclick="toggleMenu()" />
+          </div>
+        </div>
+        <div class="sub-menu-wrap" id="subMenu">
+          <div class="sub-menu">
+            <a href="#" class="sub-menu-link">
+              <img src="../images/setting.png" />
+              <p>Settings & Privacy</p>
+              <span>></span>
+            </a>
+            <a href="#" class="sub-menu-link">
+              <img src="../images/logout.png" />
+              <p>Logout</p>
+              <span>></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="content-container">
+          <div class="content-header">
+            <div class="header-left">
+              <div class="header-title">Thông tin chung</div>
+            </div>
+            <div class="header-right">Điểm Danh</div>
+          </div>
+
+          <div class="content-body">
+            <div class="form-column">
+              <div class="form-group">
+                <label>Student ID</label>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Nhập MSV"
+                    class="input-field"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Họ tên</label>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Nhập Họ và Tên"
+                    class="input-field"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Lớp học</label>
+                <div>
+                  <input type="text" placeholder="Lớp" class="input-field" />
+                </div>
+              </div>
+            </div>
+            <div class="image-column">
+              <div class="image-placeholder"></div>
+            </div>
+          </div>
+
+          <div class="button-container">
+            <div class="save-button">
+              <div>Xác nhận</div>
+            </div>
+
+            <div class="save-button">
+              <div>Thử lại</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("class-tab")
+        .addEventListener("click", function () {
+          this.classList.add("active");
+          document.getElementById("student-tab").classList.remove("active");
+        });
+
+      document
+        .getElementById("student-tab")
+        .addEventListener("click", function () {
+          this.classList.add("active");
+          document.getElementById("class-tab").classList.remove("active");
+        });
+      let subMenu = document.getElementById("subMenu");
+      function toggleMenu() {
+        subMenu.classList.toggle("open-menu");
+      }
+    </script>
+  </body>
+</html>
