@@ -66,34 +66,33 @@
     object-fit: contain;
 }
 
-.tab-column {
-    width: 39%;
-    margin-left: 20px;
+.tab-row {
+  display: flex;
+  align-items: center;
+  gap: 100px; /* Khoảng cách giữa các nút tab */
 }
 
 .tab-button {
-    width: 100%;
-    padding: 10px 56px;
-    border-radius: 33px;
-    font-size: 24px;
-    font-weight: 800;
-    color: #1c1917;
-    background-color: #d4d4d8;
-    border: 1px solid;
-    cursor: pointer;
-    min-height: 53px;
-    white-space: nowrap;
-    transition: all 0.3s ease;
+  display: inline-block; /* Giữ inline để dễ căn chỉnh trong nhiều layout */
+  width: 100%; /* Toàn chiều ngang nếu cần */
+  padding: 10px 56px; /* Padding thoải mái */
+  font-size: 24px; /* Kích thước chữ to rõ */
+  font-weight: 800; /* Đậm nổi bật */
+  color: #1c1917; /* Màu chữ */
+  background-color: #d4d4d8; /* Màu nền */
+  border: 1px solid; /* Viền nhẹ */
+  border-radius: 33px; /* Bo tròn đẹp */
+  text-decoration: none; /* Bỏ gạch chân nếu là thẻ a */
+  cursor: pointer; /* Con trỏ tay */
+  min-height: 53px; /* Chiều cao tối thiểu */
+  white-space: nowrap; /* Không xuống dòng */
+  transition: all 0.3s ease; /* Hiệu ứng mượt mà */
 }
 
-.tab-button.active {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 12px;
-}
-
-.tab-button.active:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+.tab-button:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px); /* Hiệu ứng nâng lên khi hover */
+  box-shadow: 0 4px 15px rgba(238, 105, 105, 0.2); 
 }
 
 .profile-container {
@@ -211,13 +210,12 @@
     font-size: 24px;
     font-weight: 600;
     color: white;
-    letter-spacing: 2.4px;
 }
 
 .add-class-button {
     align-self: flex-end;
     padding: 16px 32px;
-    margin-top: 32px;
+    margin-top: -40px;
     font-size: 18px;
     font-weight: 700;
     line-height: 1;
@@ -233,6 +231,7 @@
 .add-class-button:hover {
     background-color: #45a049;
     transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(238, 105, 105, 0.2); 
 }
 
 .class-items {
@@ -249,39 +248,26 @@
     justify-content: center;
 }
 
-.action-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
-    align-items: flex-start;
-    max-width: 512px;
-    width: 100%;
-    list-style: none;
-}
 
 .action-button {
-    padding: 6px 36px 16px;
-    font-size: 20px;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    color: #1c1917;
-    background-color: #d4d4d8;
-    border: 1px solid #d4d4d8;
-    border-radius: 33px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 2.75rem;
+  width: 223px;
+  font-size: 20px;
+  font-weight: 800;
+  color: rgb(205, 205, 205);
+  background-color: #64748B;
+  border: 3px solid black;
+  border-radius: 36px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  user-select: none; /* tránh bôi đen khi click */
 }
 
-.student-list-container {
-    height: 100%;
-    padding: 28px 32px;
-    padding-bottom: 690px;
-    font-size: 24px;
-    font-weight: 700;
-    color: white;
-    border-radius: 24px;
-    border: 1px solid #d4d4d8;
-    background-color: rgba(28, 25, 23, 0.8);
-    letter-spacing: 2.88px;
+.action-button:hover {
+  background-color: #475569;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(238, 105, 105, 0.2);
 }

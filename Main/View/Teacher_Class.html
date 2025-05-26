@@ -14,11 +14,9 @@
             <div class="logo-column">
               <img src="../images/icon_black.png" class="logo" alt="Logo" />
             </div>
-            <div class="tab-column">
-              <button class="tab-button active" id="class-tab">Lớp</button>
-            </div>
-            <div class="tab-column">
-              <button class="tab-button" id="student-tab">QLSV</button>
+            <div class="tab-row">
+              <button class="tab-button" id="class-tab">Lớp</button>
+              <a href="Teacher_Sign_Face.html" id="student-tab" class="tab-button">QLSV</a>
             </div>
           </div>
         </div>
@@ -53,15 +51,17 @@
               <div class="class-items">
                 <!-- Class items would be dynamically added here -->
               </div>
-              <div class="class-actions">
+            </div>
+          </div>
+
+          <div class="class-actions">
                 <ul class="action-buttons">
                   <li><button class="action-button">Xem</button></li>
                   <li><button class="action-button">Sửa</button></li>
                   <li><button class="action-button">Xóa</button></li>
                 </ul>
-              </div>
-            </div>
           </div>
+
           <div class="student-list-column">
             <div class="student-list-container">
               Chọn một lớp để xem danh sách học sinh
@@ -70,7 +70,7 @@
         </div>
       </div>
     </div>
-    <script>
+    <!-- <script>
       document
         .getElementById("class-tab")
         .addEventListener("click", function () {
@@ -88,6 +88,6 @@
       function toggleMenu() {
         subMenu.classList.toggle("open-menu");
       }
-    </script>
+    </script> -->
   </body>
 </html>

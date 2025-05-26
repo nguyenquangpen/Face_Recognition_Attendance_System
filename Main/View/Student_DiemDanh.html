@@ -14,12 +14,18 @@
             <div class="logo-column">
               <img src="../images/icon_black.png" class="logo" alt="Logo" />
             </div>
-            <div class="tab-column">
-              <button class="tab-button active" id="class-tab">Lớp</button>
+            <!-- <div class="tab-column">
+              <a href="Student_Class.html" class="tab-button active" id="class-tab">Lớp</a>
             </div>
             <div class="tab-column">
-              <button class="tab-button" id="student-tab">QLSV</button>
+              <a class="tab-button active" id="login-tab">Đăng Nhập</a>
+            </div> -->
+            
+            <div class="tab-row">
+              <a href="Student_Class.html" class="tab-button">Lớp</a>
+              <a class="tab-button">Điểm Danh</a>
             </div>
+
           </div>
         </div>
         <div class="profile-container">
@@ -50,11 +56,10 @@
             </div>
             <div class="header-right">Điểm Danh</div>
           </div>
-
           <div class="content-body">
             <div class="form-column">
               <div class="form-group">
-                <label>Student ID</label>
+                <label for="student-id">Student ID</label>
                 <div>
                   <input
                     type="text"
@@ -86,13 +91,8 @@
           </div>
 
           <div class="button-container">
-            <div class="save-button">
-              <div>Xác nhận</div>
-            </div>
-
-            <div class="save-button">
-              <div>Thử lại</div>
-            </div>
+            <button type="button" class="save-button">Xác nhận</button>
+            <button type="button" class="save-button">Thử lại</button>
           </div>
         </div>
       </div>

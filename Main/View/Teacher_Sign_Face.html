@@ -14,28 +14,26 @@
             <div class="logo-column">
               <img src="../images/icon_black.png" class="logo" alt="Logo" />
             </div>
-            <div class="tab-column">
-              <button class="tab-button active" id="class-tab">Lớp</button>
-            </div>
-            <div class="tab-column">
+            <div class="tab-row">
+              <a href="Teacher_Class.html" class="tab-button">Lớp</a>
               <button class="tab-button" id="student-tab">QLSV</button>
             </div>
           </div>
         </div>
         <div class="profile-container">
           <div class="profile-content">
-            <img src="../image/profile.png" onclick="toggleMenu()" />
+            <img src="../images/profile.png" onclick="toggleMenu()" />
           </div>
         </div>
         <div class="sub-menu-wrap" id="subMenu">
           <div class="sub-menu">
             <a href="#" class="sub-menu-link">
-              <img src="../image/setting.png" />
+              <img src="../images/setting.png" />
               <p>Settings & Privacy</p>
               <span>></span>
             </a>
             <a href="#" class="sub-menu-link">
-              <img src="../image/logout.png" />
+              <img src="../images/logout.png" />
               <p>Logout</p>
               <span>></span>
             </a>
@@ -47,13 +45,6 @@
           <div class="content-header">
             <div class="header-left">
               <div class="header-title">Student Information</div>
-              <div class="new-student-button">
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/10799d40f51d2bec91f175526833f2328716dda2?placeholderIfAbsent=true&apiKey=34e0264438594db2a19b7519d609f5c8"
-                  alt="Add icon"
-                />
-                <div><a href="#">New Student</a></div>
-              </div>
             </div>
             <div class="header-right">Đăng ký khuôn mặt</div>
           </div>
@@ -85,18 +76,16 @@
               <div class="image-placeholder"></div>
             </div>
           </div>
-
-          <div class="save-button">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/2fd92f852b95fe1b0bc61da30c21ae0cc8e69c3b?placeholderIfAbsent=true&apiKey=34e0264438594db2a19b7519d609f5c8"
-              alt="Save icon"
-            />
-            <div>Lưu</div>
+          
+          <div class="button-row">
+            <button class="save-button">Lưu</button>
+            <button class="new-student-button">Đăng Ký</button>
           </div>
+
         </div>
       </div>
     </div>
-    <script>
+    <!-- <script>
       document
         .getElementById("class-tab")
         .addEventListener("click", function () {
@@ -114,6 +103,6 @@
       function toggleMenu() {
         subMenu.classList.toggle("open-menu");
       }
-    </script>
+    </script> -->
   </body>
 </html>

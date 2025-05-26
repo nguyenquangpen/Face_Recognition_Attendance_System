@@ -14,12 +14,12 @@
             <div class="logo-column">
               <img src="../images/icon_black.png" class="logo" alt="Logo" />
             </div>
-            <div class="tab-column">
-              <button class="tab-button active" id="class-tab">Lớp</button>
+            
+            <div class="tab-row">
+              <button class="tab-button" id="class-tab">Lớp</button>
+              <a href="Student_DiemDanh.html" class="tab-button">Điểm Danh</a>
             </div>
-            <div class="tab-column">
-              <button class="tab-button" id="student-tab">QLSV</button>
-            </div>
+
           </div>
         </div>
         <div class="profile-container">
@@ -52,17 +52,17 @@
               <div class="class-items">
                 <!-- Class items would be dynamically added here -->
               </div>
+
               <div class="class-actions">
-                <ul class="action-buttons">
-                  <li><button class="action-button">Điểm danh</button></li>
-                </ul>
+                <button type="button" class="action-button">Điểm danh</button>
               </div>
+
             </div>
           </div>
         </div>
       </div>
     </div>
-    <script>
+    <!-- <script>
       document
         .getElementById("class-tab")
         .addEventListener("click", function () {
@@ -80,6 +80,6 @@
       function toggleMenu() {
         subMenu.classList.toggle("open-menu");
       }
-    </script>
+    </script> -->
   </body>
 </html>
