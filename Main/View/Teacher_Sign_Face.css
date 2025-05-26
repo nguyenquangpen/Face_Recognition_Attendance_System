@@ -119,6 +119,7 @@ a {
     backdrop-filter: blur(10px);
     background-color: rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
+    user-select: none;
 }
 
 .profile-content:hover {

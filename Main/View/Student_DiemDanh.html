@@ -30,7 +30,9 @@
         </div>
         <div class="profile-container">
           <div class="profile-content">
-            <img src="../images/profile.png" onclick="toggleMenu()" />
+            <a href="Login_View.html">
+              <img src="../images/profile.png" alt="Profile" />
+            </a>
           </div>
         </div>
         <div class="sub-menu-wrap" id="subMenu">
@@ -97,24 +99,5 @@
         </div>
       </div>
     </div>
-    <script>
-      document
-        .getElementById("class-tab")
-        .addEventListener("click", function () {
-          this.classList.add("active");
-          document.getElementById("student-tab").classList.remove("active");
-        });
-
-      document
-        .getElementById("student-tab")
-        .addEventListener("click", function () {
-          this.classList.add("active");
-          document.getElementById("class-tab").classList.remove("active");
-        });
-      let subMenu = document.getElementById("subMenu");
-      function toggleMenu() {
-        subMenu.classList.toggle("open-menu");
-      }
-    </script>
   </body>
 </html>
