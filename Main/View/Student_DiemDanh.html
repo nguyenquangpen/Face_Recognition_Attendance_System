@@ -220,6 +220,43 @@ cameraBtn.addEventListener("click", async () => {
     }
   }
 });
+const confirmBtn = document.getElementById("confirmBtn");
+  const classNameInput = document.getElementById("class-name");
+
+  confirmBtn.addEventListener("click", async () => {
+    const studentId = studentIdInput.value.trim();
+    const fullName = fullNameInput.value.trim();
+    const className = classNameInput.value.trim();
+
+    if (!studentId || !fullName || !className) {
+      alert("Vui lòng điền đầy đủ thông tin.");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/save_student", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          student_id: studentId,
+          full_name: fullName,
+          class_name: className,
+        }),
+      });
+
+      const result = await res.json();
+      if (result.status === "success") {
+        alert("Đã lưu thông tin sinh viên thành công!");
+      } else {
+        alert("Lỗi khi lưu: " + result.message);
+      }
+    } catch (err) {
+      alert("Lỗi kết nối tới server.");
+      console.error(err);
+    }
+  });
 </script>
 
 
