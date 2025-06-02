@@ -1,62 +1,87 @@
+from flask import Flask, request, jsonify
 import cv2
 import numpy as np
 import mediapipe as mp
 import pickle
+import base64
+import io
+from PIL import Image
+from flask_cors import CORS
 
-# Load model đã huấn luyện
-with open('KNN_Model/face_reconition_model.pkl', 'rb') as f:
+app = Flask(__name__)
+CORS(app)
+
+# Load model KNN đã huấn luyện
+with open('Main/Model/KNN_Model/face_recognition_model.pkl', 'rb') as f:
     model = pickle.load(f)
-
 
 # Thông số
 IMG_SIZE = 150
 
-# Mediapipe Face Detection
 mp_face_detection = mp.solutions.face_detection
-mp_drawing = mp.solutions.drawing_utils
-# Webcam
-cap = cv2.VideoCapture(0)
 
-with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence=0.5) as face_detection:
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
+def predict_face_from_image(image_bytes):
+    # Chuyển ảnh base64 sang numpy array
+    image = Image.open(io.BytesIO(image_bytes))
+    frame = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
 
-        # Chuyển ảnh sang RGB (Mediapipe yêu cầu RGB)
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        results = face_detection.process(rgb_frame)
+    with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence=0.5) as face_detection:
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = face_detection.process(frame_rgb)
 
-        if results.detections:
-            for detection in results.detections:
-                bboxC = detection.location_data.relative_bounding_box
-                ih, iw, _ = frame.shape
-                x = int(bboxC.xmin * iw)
-                y = int(bboxC.ymin * ih)
-                w = int(bboxC.width * iw)
-                h = int(bboxC.height * ih)
+        if not results.detections or len(results.detections) == 0:
+            return {"status": "fail", "message": "Không phát hiện khuôn mặt."}
 
-                # Cắt khuôn mặt
-                face_img = frame[y:y+h, x:x+w]
-                try:
-                    face_gray = cv2.cvtColor(face_img, cv2.COLOR_BGR2GRAY)
-                    face_resized = cv2.resize(face_gray, (IMG_SIZE, IMG_SIZE))
-                    face_flatten = face_resized.flatten().reshape(1, -1) / 255.0
+        # Lấy khuôn mặt đầu tiên
+        detection = results.detections[0]
+        bbox = detection.location_data.relative_bounding_box
+        h, w, _ = frame.shape
+        x = max(0, int(bbox.xmin * w))
+        y = max(0, int(bbox.ymin * h))
+        x2 = min(w, x + int(bbox.width * w))
+        y2 = min(h, y + int(bbox.height * h))
+        face = frame[y:y2, x:x2]
 
-                    # Dự đoán tên người
-                    pred = model.predict(face_flatten)
-                    name = pred[0]
+        try:
+            face_gray = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
+            face_resized = cv2.resize(face_gray, (IMG_SIZE, IMG_SIZE))
+            face_flatten = face_resized.flatten().reshape(1, -1) / 255.0
+            pred = model.predict(face_flatten)[0]
 
-                    # Vẽ khung và tên người
-                    cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-                    cv2.putText(frame, name, (x, y - 10),
-                                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-                except:
-                    pass
+            # Tách student_id và tên
+            parts = pred.split("_", 1)
+            student_id = parts[0]
+            full_name = parts[1] if len(parts) > 1 else ""
 
-        cv2.imshow("Face Recognition - Diem danh", frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+            return {
+                "status": "success",
+                "student_id": student_id,
+                "full_name": full_name
+            }
 
-cap.release()
-cv2.destroyAllWindows()
+        except Exception as e:
+            return {"status": "fail", "message": "Lỗi xử lý khuôn mặt."}
+
+@app.route("/predict_face", methods=["POST"])
+def diemdanh():
+    try:
+        data = request.get_json()
+        image_data = data.get("image_data")
+
+        if not image_data:
+            return jsonify({"status": "fail", "message": "Thiếu dữ liệu ảnh."}), 400
+
+        # Loại bỏ header của base64
+        header, encoded = image_data.split(",", 1)
+        image_bytes = base64.b64decode(encoded)
+
+        result = predict_face_from_image(image_bytes)
+
+        return jsonify(result)
+
+    except Exception as e:
+        return jsonify({"status": "fail", "message": "Lỗi server: " + str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(debug=True)
+# Chạy ứng dụng Flask

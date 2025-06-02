@@ -67,6 +67,7 @@
                     type="text"
                     placeholder="Nhập MSV"
                     class="input-field"
+                    id="student-id"
                   />
                 </div>
               </div>
@@ -77,13 +78,14 @@
                     type="text"
                     placeholder="Nhập Họ và Tên"
                     class="input-field"
+                    id="full-name"
                   />
                 </div>
               </div>
               <div class="form-group">
                 <label>Lớp học</label>
                 <div>
-                  <input type="text" placeholder="Lớp" class="input-field" />
+                  <input type="text" placeholder="Lớp" class="input-field" id="class-name"  />
                 </div>
               </div>
             </div>
@@ -93,11 +95,133 @@
           </div>
 
           <div class="button-container">
-            <button type="button" class="save-button">Xác nhận</button>
-            <button type="button" class="save-button">Thử lại</button>
+            <button type="button" class="save-button" id="confirmBtn">Xác nhận</button>
+            <button type="button" class="save-button" id="cameraBtn">Camera</button>
           </div>
         </div>
       </div>
     </div>
+ <script>
+const cameraBtn = document.getElementById("cameraBtn");
+const placeholder = document.querySelector(".image-placeholder");
+const studentIdInput = document.getElementById("student-id");
+const fullNameInput = document.getElementById("full-name");
+
+let stream = null;
+let video = null;
+
+async function captureFrame() {
+  const canvas = document.createElement("canvas");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL("image/jpeg");
+}
+
+async function predict(imageBase64) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+  try {
+    const res = await fetch("http://localhost:5000/predict_face", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image_data: imageBase64 }),
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+    if (!res.ok) throw new Error("Response not OK");
+    const result = await res.json();
+    return result;
+  } catch (e) {
+    clearTimeout(timeoutId);
+    throw e;
+  }
+}
+
+cameraBtn.addEventListener("click", async () => {
+  if (stream) {
+    // Nếu đang bật thì tắt camera
+    stream.getTracks().forEach(track => track.stop());
+    stream = null;
+    if (video) {
+      video.remove();
+      video = null;
+    }
+    return;
+  }
+
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+
+    video = document.createElement("video");
+    video.setAttribute("autoplay", "");
+    video.style.width = "100%";
+    video.style.height = "100%";
+    video.style.objectFit = "cover";
+    video.style.borderRadius = "100px";
+    video.style.transform = "scaleX(-1)";
+    placeholder.innerHTML = "";
+    placeholder.appendChild(video);
+    video.srcObject = stream;
+
+    await new Promise(resolve => {
+      video.onloadedmetadata = () => {
+        resolve();
+      };
+    });
+
+    // Chụp 10 ảnh, cách nhau 0.5s
+    const predictions = [];
+    for (let i = 0; i < 10; i++) {
+      const imageBase64 = await captureFrame();
+      try {
+        const result = await predict(imageBase64);
+        if (result.status === "success") {
+          predictions.push(result);
+        }
+      } catch {
+    // Bỏ qua lỗi ở ảnh này
+      }
+      await new Promise(r => setTimeout(r, 200));
+    }
+
+
+    if (predictions.length === 0) {
+      alert("Không nhận diện được khuôn mặt.");
+    } else {
+      // Đếm tần suất student_id để chọn kết quả phổ biến nhất
+      const freq = {};
+      for (const p of predictions) {
+        freq[p.student_id] = (freq[p.student_id] || 0) + 1;
+      }
+      const bestStudentId = Object.keys(freq).reduce((a, b) =>
+        freq[a] > freq[b] ? a : b
+      );
+      const bestPrediction = predictions.find(p => p.student_id === bestStudentId);
+
+      studentIdInput.value = bestPrediction.student_id || "";
+      fullNameInput.value = bestPrediction.full_name || "";
+      alert("Đã nhận diện thành công!");
+    }
+
+  } catch (err) {
+    alert("Lỗi nhận diện hoặc timeout.");
+  } finally {
+    // Tắt camera
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      stream = null;
+    }
+    if (video) {
+      video.remove();
+      video = null;
+    }
+  }
+});
+</script>
+
+
   </body>
 </html>

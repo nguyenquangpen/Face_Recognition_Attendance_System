@@ -60,6 +60,7 @@
                     type="text"
                     placeholder="Nhập MSV"
                     class="input-field"
+                    id="student-id"
                   />
                 </div>
               </div>
@@ -70,21 +71,156 @@
                     type="text"
                     placeholder="Nhập Họ và Tên"
                     class="input-field"
+                    id="student-name"
                   />
                 </div>
               </div>
             </div>
             <div class="image-column">
-              <div class="image-placeholder"></div>
+              <div class="image-placeholder">
+                <img id="preview-img" style="width: 100%; height: 100%; border-radius: 100px; object-fit: cover;" />
+              </div>
+              <input type="file" id="video-file" accept="video/*" style="display:none;" />
             </div>
           </div>
           
           <div class="button-row">
             <button class="save-button">Lưu</button>
             <button class="new-student-button">Đăng Ký</button>
+            <button class="train-model-button">Cập nhật</button>
           </div>
         </div>
       </div>
     </div>
+<script>
+  const saveBtn = document.querySelector(".save-button");
+const registerBtn = document.querySelector(".new-student-button");
+const trainBtn = document.querySelector(".train-model-button");
+const videoInput = document.createElement("input");
+videoInput.type = "file";
+videoInput.accept = "video/*";
+videoInput.style.display = "none";
+document.body.appendChild(videoInput);
+
+let selectedFile = null;
+
+// Xử lý sự kiện khi chọn video
+videoInput.addEventListener("change", () => {
+  selectedFile = videoInput.files[0];
+
+  const maxSizeMB = 30;
+  const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+  if (selectedFile.size > maxSizeBytes) {
+    alert(`❌ File quá lớn! Vui lòng chỉ chọn file dưới 15s và dưới ${maxSizeMB}MB.`);
+    selectedFile = null;
+    document.getElementById("preview-img").src = "";  // Xóa ảnh nếu có
+    return;
+  }
+
+  alert(`📁 Đã chọn file: ${selectedFile.name}`);
+
+  const video = document.createElement("video");
+  video.preload = "metadata";
+
+  video.onloadeddata = () => {
+    video.currentTime = 1;
+  };
+
+  video.onseeked = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const dataURL = canvas.toDataURL();
+    const img = document.getElementById("preview-img");
+    img.src = dataURL;
+  };
+
+  video.src = URL.createObjectURL(selectedFile);
+  video.load();
+});
+
+// Xử lý sự kiện khi nhấn nút "Đăng Ký"
+registerBtn.addEventListener("click", () => {
+  videoInput.click();
+});
+
+// Xử lý sự kiện khi nhấn nút "Lưu"
+saveBtn.addEventListener("click", () => {
+  const msv = document.getElementById("student-id").value.trim();
+  const hoten = document.getElementById("student-name").value.trim();
+
+  if (!msv || !hoten || !selectedFile) {
+    alert("❗ Vui lòng nhập đầy đủ thông tin và chọn video.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("name", `${msv}_${hoten}`);
+  formData.append("video", selectedFile);
+
+  saveBtn.textContent = "⏳ Đang xử lý...";
+  saveBtn.disabled = true;
+
+  fetch("http://127.0.0.1:5000/process_video", {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      alert(`✅ Đã xử lý xong. Lưu ${data.saved} ảnh cho '${data.name}'.`);
+      // Giữ nguyên dữ liệu trên giao diện
+    } else {
+      alert(`❌ Lỗi: ${data.message}`);
+    }
+  })
+  .catch(err => {
+    alert("❌ Có lỗi xảy ra!");
+    console.error(err);
+  })
+  .finally(() => {
+    saveBtn.textContent = "Lưu";
+    saveBtn.disabled = false;
+  });
+});
+
+// Xử lý sự kiện khi nhấn nút "Cập nhật"
+trainBtn.addEventListener("click", () => {
+  trainBtn.textContent = "⏳ Đang cập nhật";
+  trainBtn.disabled = true;
+
+  // Thông báo ngay lập tức
+  alert("✅ Cập nhật hoàn tất!");
+
+  // Gửi yêu cầu huấn luyện model
+  fetch("http://127.0.0.1:5000/train_model", {
+    method: "POST"
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.error) {
+      console.error("❌ Lỗi khi cập nhật:", data.error);
+    }
+  })
+  .catch(err => {
+    console.error("❌ Lỗi kết nối:", err);
+  })
+  .finally(() => {
+    trainBtn.textContent = "Cập nhật";
+    trainBtn.disabled = false;
+
+    // Reset form sau khi gọi API
+    document.getElementById("student-id").value = "";
+    document.getElementById("student-name").value = "";
+    document.getElementById("preview-img").src = "";
+    selectedFile = null;
+  });
+});
+
+</script>
   </body>
 </html>

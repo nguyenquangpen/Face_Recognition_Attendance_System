@@ -290,6 +290,14 @@ a {
     height: 461px;
     border-radius: 100px;
     width: 519px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.image-placeholder img {
+    border-radius: 100px;
+    object-fit: cover;
 }
 
 .button-container {
